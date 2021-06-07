@@ -1,0 +1,111 @@
+db.posts.insert({
+    title: 'Post One',
+    body: 'Body of post one',
+    category: 'News',
+    likes: 4,
+    tags: ['news', 'events'],
+    user: {
+        name: 'John Doe',
+        status: 'author'
+    },
+    date: Date()
+})
+
+db.posts.insertMany([
+    {
+        title: 'Post Two',
+        body: 'Body of post two',
+        category: 'Tech',
+        date: Date()
+    },
+    {
+        title: 'Post Three',
+        body: 'Body of post three',
+        category: 'News',
+        date: Date()
+    },
+    {
+        title: 'Post Four',
+        body: 'Body of post four',
+        category: 'Sports',
+        date: Date()
+    },
+])
+
+db.posts.update({ title: 'Post Two' }, 
+    {
+        title: 'Post Two',
+        body: 'New post 2 body',
+        date: Date()
+    },
+    {
+        upsert: true
+    }
+)
+
+db.posts.update({ title: 'Post Two' }, 
+    {
+        $set: {
+            body: 'Totally new body 2',
+            category: 'Entertainment'
+        }
+    }
+)
+
+db.posts.update({title: 'Post One'},
+    {
+        $set: {
+            comments: [
+                {
+                    user: 'Mary Williams',
+                    body: 'Comment One',
+                    date: Date()
+                },
+                {
+                    user: 'Walter Gray',
+                    body: 'Comment Two',
+                    date: Date()
+                },
+            ]
+        }
+    }
+)  
+
+
+
+db.posts.find({category: 'News'}).pretty()
+db.posts.find().limit(2)
+db.posts.update({title: 'Post One'}, {$inc : {likes: 2}})
+db.posts.update({title: 'Post One'}, {$rename : {likes: 'views'}})
+db.posts.remove({title: 'Post Four'})
+
+db.posts.find({
+    comments: {
+        $elemMatch: {
+            user: 'Mary Williams'
+        }
+    }
+})
+
+db.posts.createIndex({title: 'text'})
+
+db.posts.find({
+    $text:{
+        $search : "\"Post O\""
+    }
+})
+
+db.posts.update({title: 'Post Two'}, 
+{
+    $set:{
+        views: 10
+    }
+})
+
+db.posts.find( 
+{
+    views: {
+        $gt: 4
+    }
+})
+
