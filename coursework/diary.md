@@ -17,4 +17,4 @@ Next up was mongodb. I installed it as a service and added mongo to my path. I f
 
 #### 08.06.2021
 
-I followed the express crash course tutorial and learned new concepts like rendering pages from templates.
+I followed the express crash course tutorial and learned new concepts like rendering pages from templates, implementation of an API with express and node.js
