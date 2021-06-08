@@ -1,91 +1,35 @@
-const http = require("http");
+const express = require("express");
 const path = require("path");
-const fs = require("fs");
+const exphbs = require("express-handlebars");
+const logger = require("./express/logger");
+const members = require("./express/Members");
 
-const server = http.createServer((req, res) => {
-  // if (req.url === '/') {
-  //   fs.readFile(
-  //     path.join(__dirname, 'public', 'index.html'),
-  //     (err, content) => {
-  //       if (err) throw err;
-  //       res.writeHead(200, { 'Content-Type': 'text/html' });
-  //       res.end(content);
-  //     }
-  //   );
-  // }
+const app = express();
 
-  // if (req.url === '/api/users') {
-  //   const users = [
-  //     { name: 'Bob Smith', age: 40 },
-  //     { name: 'John Doe', age: 30 }
-  //   ];
-  //   res.writeHead(200, { 'Content-Type': 'application/json' });
-  //   res.end(JSON.stringify(users));
-  // }
+// Init middle-ware
+//app.use(logger);
 
-  // Build file path
-  let filePath = path.join(
-    __dirname,
-    "public",
-    req.url === "/" ? "index.html" : req.url
-  );
+// Handlebars middleware
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-  // Extension of file
-  let extname = path.extname(filePath);
+// Body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-  // Initial content type
-  let contentType = "text/html";
-
-  // Check ext and set content type
-  switch (extname) {
-    case ".js":
-      contentType = "text/javascript";
-      break;
-    case ".css":
-      contentType = "text/css";
-      break;
-    case ".json":
-      contentType = "application/json";
-      break;
-    case ".png":
-      contentType = "image/png";
-      break;
-    case ".jpg":
-      contentType = "image/jpg";
-      break;
-  }
-
-  // Check if contentType is text/html but no .html file extension
-  if (contentType == "text/html" && extname == "") filePath += ".html";
-
-  // log the filePath
-  console.log(filePath);
-
-  // Read File
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      if (err.code == "ENOENT") {
-        // Page not found
-        fs.readFile(
-          path.join(__dirname, "public", "404.html"),
-          (err, content) => {
-            res.writeHead(404, { "Content-Type": "text/html" });
-            res.end(content, "utf8");
-          }
-        );
-      } else {
-        //  Some server error
-        res.writeHead(500);
-        res.end(`Server Error: ${err.code}`);
-      }
-    } else {
-      // Success
-      res.writeHead(200, { "Content-Type": contentType });
-      res.end(content, "utf8");
-    }
+// Homepage route
+app.get("/", (req, res) => {
+  res.render("index", {
+    title: "Member App",
+    members,
   });
 });
 
-const PORT = process.env.PORT || 5000;
+// set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Members api routes
+app.use("/api/members", require("./routes/api/members"));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
