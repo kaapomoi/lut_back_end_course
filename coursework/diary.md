@@ -18,3 +18,28 @@ Next up was mongodb. I installed it as a service and added mongo to my path. I f
 #### 08.06.2021
 
 I followed the express crash course tutorial and learned new concepts like rendering pages from templates, implementation of an API with express and node.js
+
+I followed the REST example project tutorial and learned how to combine the previously taught concepts into a project.
+
+#### 12.06.2021
+
+Starting the final project, I'm thinking about making a matchmaking thing where the API takes in two players ids and simulates a 1v1 game, where the winner is determined by their 'skill', updates the players' stats.
+
+The user should be able to:
+
+- get player data
+- get played matches
+- simulate a game (send 2 ids to server)
+
+Database structure:
+
+players:
+| id | name | wins | losses | mmr | real_skill |
+| -- |------ | ---:|------:|----:|----------: |
+| $oid| simon| 12 | 3 | 1400 | 0.8 |
+| $oid| eddy | 2 | 13 | 800 | 0.2 |
+
+matches:
+| p1_id | p2_id | result |
+|-------|-------|-------:|
+| $oid | $oid | 1 |
