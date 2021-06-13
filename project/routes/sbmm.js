@@ -84,7 +84,7 @@ router.post("/matches/", async (req, res) => {
   try {
     let winner = determineWinner(player1, player2);
     calculateNewRating(player1, player2, winner);
-    updateWinsLosses(playerA, playerB, winner);
+    updateWinsLosses(player1, player2, winner);
     let matchID;
     await Match.countDocuments({}, function (err, count) {
       console.log("Number of matches:", count);
