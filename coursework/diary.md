@@ -13,13 +13,13 @@ I set up a git repository and read the instructions for completing the course. I
 
 I already had NodeJS installed, so I started writing the code right away. I followed the tutorial, but when I went to test the final product, it gave me an error in the inspector: "the character encoding of the plain text document was not declared.". JS being the shit language it is, couldn't tell me what's actually wrong. After scouring the web for solutions and not finding any that work, I just copied the source code from the tutorials repository and sure enough it worked, meaning I must've mis-typed something.
 
-Next up was mongodb. I installed it as a service and added mongo to my path. I followed the tutorial and saved the commands into a text file for later reference. I learned how to insert, update and query data from the database.
+Next up was mongodb. I installed it as a service and added mongo to my path. I followed the tutorial and saved the commands into a text file for later reference. I learned how to insert, update and query data from the database using the mongo shell.
 
 #### 08.06.2021
 
 I followed the express crash course tutorial and learned new concepts like rendering pages from templates, implementation of an API with express and node.js
 
-I followed the REST example project tutorial and learned how to combine the previously taught concepts into a project.
+I followed the REST example project tutorial and learned how to interact with mongodb via mongoose, and combine all the previously taught concepts into a project.
 
 #### 12.06.2021
 
@@ -27,6 +27,9 @@ Starting the final project, I'm thinking about making a matchmaking thing where 
 
 The user should be able to:
 
+- create players
+- delete players
+- update player data
 - get player data
 - get played matches
 - simulate a game (send 2 ids to server)
@@ -34,12 +37,16 @@ The user should be able to:
 Database structure:
 
 players:
-| id | name | wins | losses | mmr | real_skill |
-| -- |------ | ---:|------:|----:|----------: |
-| $oid| simon| 12 | 3 | 1400 | 0.8 |
-| $oid| eddy | 2 | 13 | 800 | 0.2 |
+| id | name | wins | losses | mmr | skill |
+| -- |------ | ---:|------:|----:|------: |
+| 1| simon| 12 | 3 | 1400 | 0.8 |
+| 2| eddy | 5 | 10 | 800 | 0.4 |
 
 matches:
-| p1_id | p2_id | result |
+| p1ID | p2ID | result |
 |-------|-------|-------:|
-| $oid | $oid | 1 |
+| 1 | 2 | 1 |
+
+#### 13.06.2021
+
+I wrote the README on how to run the project.
